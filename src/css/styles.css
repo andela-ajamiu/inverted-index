@@ -1,0 +1,20 @@
+header, footer {
+    background-color: black;
+    color: white;
+    padding: 5px 0;
+}
+
+footer {
+    margin-top: 100px;
+    text-align: center;
+}
+
+header h1 {
+    /*text-align: center;*/
+    font-style: italic;
+    font-weight: bold;
+}
+
+.main {
+    margin: 20px;
+}

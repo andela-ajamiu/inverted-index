@@ -1,0 +1,17 @@
+{
+  "name": "inverted-index",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "https://github.com/gottsohn/inverted-index",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
