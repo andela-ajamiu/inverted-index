@@ -20,16 +20,17 @@
   "homepage": "https://github.com/gottsohn/inverted-index#readme",
   "devDependencies": {
     "coveralls": "^2.11.16",
-    "jasmine-core": "^2.5.2",
-    "karma": "^1.4.1",
-    "karma-coverage": "^1.1.1",
-    "karma-chrome-launcher": "^1.0.0",
-    "karma-jasmine": "^1.0.2",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1"
+    "gulp-eslint": "^3.0.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.4.1",
+    "karma-chrome-launcher": "^1.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.2"
   }
 }
