@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+  - "6"
+
+before_script:
+  - npm install
+  - npm i -g bower
+  - bower install
+
+script: npm test
+
+after_script: after_script: cat ./coverage/**/lcov.info | ./node_modules/.bin/coveralls
