@@ -1,4 +1,4 @@
-const invertedIndex = function () {
+var invertedIndex = function () {
   this.indexedFiles = {};
 
   this.searchResults = {};

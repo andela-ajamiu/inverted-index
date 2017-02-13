@@ -1,5 +1,5 @@
 /** Instance of index Object */
-const index = new invertedIndex();
+var index = new invertedIndex();
 
 /**
  * Mock JSON files for the test suites
