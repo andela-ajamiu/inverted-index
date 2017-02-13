@@ -4,7 +4,7 @@ var index = new invertedIndex();
 /**
  * Mock JSON files for the test suites
  */
-const books = [{
+var books = [{
   title: 'Alice in Wonderland alice',
   text: 'Alice Alice Alice Alice falls into a rabbit hole and enters a world full of imagination.'
 },
@@ -21,7 +21,7 @@ const books = [{
 ];
 
 
-const files = [{
+var files = [{
   title: 'Hello people',
   text: "We Know how people would love it if they're appreciated for everything they do"
 },
@@ -33,54 +33,56 @@ const files = [{
 ];
 
 
-const empty = [{}];
-const wrong = [{
+var empty = [{}];
+var wrong = [{
   t: 'title',
   d: 'desv'
 }];
 
 
-describe('Read book data', () => {
-  it('should not be empty', () => {
+describe('Read book data', function () {
+  it('should not be empty', function () {
     expect(files).not.toBe(null);
     expect(books.length > 0).toBeTruthy();
   });
 
-  it('Should throw an error if a json file is empty or badly formatted', () => {
-    expect(() => {
+  it('Should throw an error if a json file is empty or badly formatted', function () {
+    expect(function () {
       index.createIndex('empty.json', empty);
     }).toThrow(new Error('Invalid JSON file! Please ensure it is properly formatted and try again. Thank you'));
   });
 
-  it('Should ensure that all docs have a title and text property', () => {
-    expect(() => {
+  it('Should ensure that all docs have a title and text property', function () {
+    expect(function () {
       index.createIndex('wrong.json', wrong);
     }).toThrow(new Error('Invalid JSON file! Please ensure it is properly formatted and try again. Thank you'));
   });
 });
 
 
-describe('Tokenize words', () => {
-  const str = 'Hello world, @this is ALL...////';
+describe('Tokenize words', function () {
 
-  it('Should return and array of words passed to it', () => {
+  var str = 'Hello world, @this is ALL...////';
+
+  it('Should return and array of words passed to it', function () {
     expect(Array.isArray(index.wordsToArray(str))).toBeTruthy();
   });
 
-  it('Should remove all special characters', () => {
+  it('Should remove all special characters', function () {
     expect(index.wordsToArray(str)).toEqual(['hello', 'world', 'this', 'is', 'all']);
   });
 });
 
 
-describe('Get unique words in the Array', () => {
-  const arr = ['hello', 'world', 'world', 'world', 'this', 'is', 'all', 'this', 'is', 'all'];
+describe('Get unique words in the Array', function () {
 
-  it('Should return and array of words passed to it', () => {
+  var arr = ['hello', 'world', 'world', 'world', 'this', 'is', 'all', 'this', 'is', 'all'];
+
+  it('Should return and array of words passed to it', function () {
     expect(Array.isArray(index.removeDuplicates(arr))).toBeTruthy();
   });
 
-  it('Should remove all duplicate words', () => {
+  it('Should remove all duplicate words', function () {
     expect(index.removeDuplicates(arr)).toEqual(['hello', 'world', 'this', 'is', 'all']);
   });
 });

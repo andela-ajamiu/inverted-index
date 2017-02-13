@@ -4,29 +4,35 @@ var invertedIndex = function () {
   this.searchResults = {};
 
   this.wordsToArray = function (str) {
-    return str.replace(/[.,/#!$%^&@*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
+    return str.replace(/[.,\/#!$%\^&@\*?;:'{}=\-_`~()]/g, "").trim().toLowerCase().split(" ");
   };
 
   this.removeDuplicates = function (arr) {
-    return arr.filter((word, index) => arr.indexOf(word) === index);
+    return arr.filter(function (word, index) {
+      return arr.indexOf(word) === index;
+    });
   };
 
-  this.createIndex = function (fileName, fileContents) {
+  this.createIndex = function () {
+
     try {
       // This will contain the indexed file contents
-      const indexedFileContents = {
+      var indexedFileContents = {
         indexMap: {}
       };
 
-      /**
-       * Gets index number of each document in the
+      /** 
+       * Gets index number of each document in the 
        * JSON object
        */
-      indexedFileContents.docIndexNum = fileContents.map((item, indexNum) => indexNum);
+      indexedFileContents.docIndexNum = fileContents.map(function (item, indexNum) {
+        return indexNum;
+      });
 
-      fileContents.forEach((item, indexNum) => {
-        let titleTokens;
-        let textTokens;
+      fileContents.forEach(function (item, indexNum) {
+
+        var titleTokens;
+        var textTokens;
 
         /**
          * Check if each document in the JSON file
@@ -37,12 +43,12 @@ var invertedIndex = function () {
           titleTokens = this.tokenize(item.title);
           textTokens = this.tokenize(item.text);
         } else {
-          throw new Error(`Document ${indexNum} should have text and title`);
+          throw "Document " + indexNum + " should have text and title";
         }
 
 
         // Merged array of both titleTokens and textTokens
-        let tokens = titleTokens.concat(textTokens);
+        var tokens = titleTokens.concat(textTokens);
 
         // Get unique words from tokens
         tokens = this.uniqueWords(tokens);
@@ -50,19 +56,19 @@ var invertedIndex = function () {
         /** Set each token as a property indexMap of indexedFileContents with an array value
          * of the index number of the current document where it appears.
          */
-        tokens.forEach((token) => {
+        tokens.forEach(function (token) {
           if (!indexedFileContents.indexMap.hasOwnProperty(token)) {
             indexedFileContents.indexMap[token] = [indexNum];
           } else {
             indexedFileContents.indexMap[token].push(indexNum);
           }
         });
-      });
+      }.bind(this));
 
       // Update the indexed files records
       this.indexedFiles[fileName] = indexedFileContents;
     } catch (e) {
-      const errorMsg = 'Invalid JSON file! Please ensure it is properly formatted and try again. Thank you';
+      var errorMsg = "Invalid JSON file! Please ensure it is properly formatted and try again. Thank you";
       throw new Error(errorMsg);
     }
   };
