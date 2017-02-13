@@ -3,7 +3,7 @@ const invertedIndex = function () {
 
   this.searchResults = {};
 
-  this.wordsToArray = str => str.replace(/[.,/#!$%^&@*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
+  this.wordsToArray = str => str.replace(/[.,\/#!$%\^&@\*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
 
   this.removeDuplicates = arr => arr.filter((word, index) => arr.indexOf(word) === index);
 
