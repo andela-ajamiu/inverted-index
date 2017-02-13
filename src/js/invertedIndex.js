@@ -1,12 +1,10 @@
-
-
 const invertedIndex = function () {
   this.indexedFiles = {};
 
   this.searchResults = {};
 
   this.wordsToArray = function (str) {
-    return str.replace(/[.,\/#!$%\^&@\*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
+    return str.replace(/[.,/#!$%^&@*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
   };
 
   this.removeDuplicates = function (arr) {
