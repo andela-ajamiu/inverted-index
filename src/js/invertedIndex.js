@@ -29,9 +29,9 @@ const invertedIndex = function () {
          * has a title and text.
          */
         if (item.title && item.text) {
-          // Tokenize both title and text
-          titleTokens = this.tokenize(item.title);
-          textTokens = this.tokenize(item.text);
+          // wordsToArray both title and text
+          titleTokens = this.wordsToArray(item.title);
+          textTokens = this.wordsToArray(item.text);
         } else {
           throw new Error(`Document ${indexNum} should have text and title`);
         }
@@ -41,7 +41,7 @@ const invertedIndex = function () {
         let tokens = titleTokens.concat(textTokens);
 
         // Get unique words from tokens
-        tokens = this.uniqueWords(tokens);
+        tokens = this.removeDuplicates(tokens);
 
         /** Set each token as a property indexMap of indexedFileContents with an array value
          * of the index number of the current document where it appears.
