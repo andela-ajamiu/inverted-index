@@ -84,3 +84,30 @@ describe('Get unique words in the Array', () => {
     expect(index.removeDuplicates(arr)).toEqual(['hello', 'world', 'this', 'is', 'all']);
   });
 });
+
+
+describe('Populate Index', () => {
+  beforeEach(() => {
+    index.createIndex('books.json', books);
+  });
+
+  it('should populate the index', () => {
+    expect(index.indexedFiles['books.json'].indexMap.alice).toBeTruthy();
+    expect(Array.isArray(index.indexedFiles['books.json'].indexMap.alice)).toBeTruthy();
+  });
+
+  it('should verify that index is created', () => {
+    expect(index.indexedFiles['books.json'].indexMap.alice)
+      .toEqual([0, 1, 2]);
+  });
+
+  it('should verify that keys are mapped to the correct docs', () => {
+    expect(index.indexedFiles['books.json'].indexMap.of).toEqual([0, 1, 2]);
+  });
+
+  it('should verify that documents indices are populated into docIndexNum', () => {
+    expect(Array.isArray(index.indexedFiles['books.json'].docIndexNum)).toBeTruthy();
+    expect(index.indexedFiles['books.json'].docIndexNum).not.toBe(null);
+    expect(index.indexedFiles['books.json'].docIndexNum.length).toEqual(3);
+  });
+});
