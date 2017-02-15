@@ -5,8 +5,12 @@ header, footer {
 }
 
 footer {
-    margin-top: 100px;
     text-align: center;
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: 5em;
 }
 
 header h1 {
@@ -16,5 +20,9 @@ header h1 {
 }
 
 .main {
+    margin: 20px;
+}
+
+.upload-and-search, .create-view-search {
     margin: 20px;
 }

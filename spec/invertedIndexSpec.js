@@ -4,36 +4,12 @@ const index = new invertedIndex();
 /**
  * Mock JSON files for the test suites
  */
-const books = [{
-  title: 'Alice in Wonderland alice',
-  text: 'Alice Alice Alice Alice falls into a rabbit hole and enters a world full of imagination.'
-},
+const books = [{ name: 'books.json', docs: [{ title: 'Alice in Wonderland', text: 'Alice falls into a rabbit hole and enters a world full of imagination.' }, { title: 'The Lord of the Rings: The Fellowship of the Ring.', text: 'An unusual alliance of man, elf, dwarf, wizard and hobbit seek to destroy a powerful ring.' }] }];
 
-{
-  title: 'The Lord of the Rings: The Fellowship of the Ring.',
-  text: 'An alice unusual alliance of man, elf, dwarf dwarf, wizard and hobbit seek to destroy a powerful ring.'
-},
-
-{
-  title: 'King of kings',
-  text: 'Jesus Christ is the King of kings and Lord of lords alice'
-}
-];
-
-
-const files = [{
-  title: 'Hello people',
-  text: "We Know how people would love it if they're appreciated for everything they do"
-},
-
-{
-  title: 'This is the begining',
-  text: 'When the awesome project kicks off a lot amazing things will begin to unveil alice'
-}
-];
-
+const facts = [{ name: 'facts.json', docs: [{ title: 'The world we live in', text: 'Simple, yet Complex...Easy, yet Hard...Sweet, Yet bitter...Interesting, yet annoying' }, { title: 'Who we are', text: 'We are nothing, but nothing in the hand of something' }] }];
 
 const empty = [{}];
+
 const wrong = [{
   t: 'title',
   d: 'desv'
@@ -42,7 +18,7 @@ const wrong = [{
 
 describe('Read book data', () => {
   it('should not be empty', () => {
-    expect(files).not.toBe(null);
+    expect(facts).not.toBe(null);
     expect(books.length > 0).toBeTruthy();
   });
 
@@ -88,26 +64,69 @@ describe('Get unique words in the Array', () => {
 
 describe('Populate Index', () => {
   beforeEach(() => {
-    index.createIndex('books.json', books);
+    index.createIndex(books);
   });
 
   it('should populate the index', () => {
-    expect(index.indexedFiles['books.json'].indexMap.alice).toBeTruthy();
-    expect(Array.isArray(index.indexedFiles['books.json'].indexMap.alice)).toBeTruthy();
+    expect(index.localIndexedFiles['books.json'].indexMap.alice).toBeTruthy();
+    expect(Array.isArray(index.localIndexedFiles['books.json'].indexMap.alice)).toBeTruthy();
   });
 
   it('should verify that index is created', () => {
-    expect(index.indexedFiles['books.json'].indexMap.alice)
-      .toEqual([0, 1, 2]);
+    expect(index.localIndexedFiles['books.json'].indexMap.alice)
+      .toEqual([0]);
   });
 
   it('should verify that keys are mapped to the correct docs', () => {
-    expect(index.indexedFiles['books.json'].indexMap.of).toEqual([0, 1, 2]);
+    expect(index.localIndexedFiles['books.json'].indexMap.of).toEqual([0, 1]);
   });
 
   it('should verify that documents indices are populated into docIndexNum', () => {
-    expect(Array.isArray(index.indexedFiles['books.json'].docIndexNum)).toBeTruthy();
-    expect(index.indexedFiles['books.json'].docIndexNum).not.toBe(null);
-    expect(index.indexedFiles['books.json'].docIndexNum.length).toEqual(3);
+    expect(Array.isArray(index.localIndexedFiles['books.json'].docIndexNum)).toBeTruthy();
+    expect(index.localIndexedFiles['books.json'].docIndexNum).not.toBe(null);
+    expect(index.localIndexedFiles['books.json'].docIndexNum.length).toEqual(2);
+  });
+});
+
+
+describe('Search index of a single JSON file', () => {
+  beforeEach(() => {
+    index.createIndex(books);
+    index.createIndex(facts);
+    index.searchFile('facts.json', 'we are of');
+  });
+
+  it('should return an array of indices of the documents', () => {
+    expect(Array.isArray(index.searchResults['facts.json'].indexMap.we)).toBeTruthy();
+    expect(index.searchResults['facts.json'].indexMap.we).toEqual([0, 1]);
+    expect(index.searchResults['books.json']).toBeUndefined();
+  });
+});
+
+
+describe('Search index', () => {
+  it('should return an array of indices of the documents', () => {
+    index.createIndex(books);
+    index.searchIndex('books.json', 'alice in Wonderland');
+    expect(index.searchResults['books.json'].indexMap.alice).toEqual([0]);
+    expect(index.searchResults['books.json'].indexMap.in).toEqual([0]);
+    expect(index.searchResults['books.json'].indexMap.wonderland).toEqual([0]);
+  });
+
+  it('should return an array of indices of the documents', () => {
+    index.createIndex(facts);
+    index.searchIndex('facts.json', 'alice in Wonderland');
+    expect(index.searchResults['facts.json'].indexMap.alice).toEqual([]);
+    expect(Array.isArray(index.searchResults['facts.json'].indexMap.alice)).toBeTruthy();
+  });
+
+  it('should return an array of indices of the documents', () => {
+    index.createIndex(books, facts);
+    index.searchIndex('all', 'alice in Wonderland');
+    expect(index.searchResults['books.json'].indexMap.alice).toEqual([0]);
+    expect(index.searchResults['books.json'].indexMap.in).toEqual([0]);
+    expect(index.searchResults['books.json'].indexMap.wonderland).toEqual([0]);
+    expect(index.searchResults['facts.json'].indexMap.alice).toEqual([]);
+    expect(Array.isArray(index.searchResults['facts.json'].indexMap.alice)).toBeTruthy();
   });
 });
