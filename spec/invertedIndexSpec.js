@@ -1,6 +1,10 @@
 /** Instance of index Object */
-const index = new invertedIndex();
+// const index = new invertedIndex();
 
+const iindex = require('../src/js/invertedIndex.js');
+
+const index = new iindex();
+// console.log(index);
 /**
  * Mock JSON files for the test suites
  */

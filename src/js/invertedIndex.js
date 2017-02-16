@@ -1,4 +1,4 @@
-const invertedIndex = function () {
+module.exports = function () {
   this.searchResults = {};
 
   this.wordsToArray = str => str.replace(/[.,/#!$%^&@*?;:'{}=\-_`~()]/g, '').trim().toLowerCase().split(' ');
@@ -99,3 +99,6 @@ const invertedIndex = function () {
     }
   };
 };
+
+
+// module.exports = invertedIndex;
