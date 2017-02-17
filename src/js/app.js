@@ -18,37 +18,37 @@ angular.module('invertedIndex', [])
           }
         }
 
-        const results = [];
-        for (const file in readers) {
-          readers[file].onload = function (event) {
-            const fileContents = event.target.result;
-            results.push({
-              name: file,
-              docs: JSON.parse(fileContents)
-            });
-            ngModel.$setViewValue(results);
-          };
+        // const results = [];
+        // for (const file in readers) {
+        //   readers[file].onload = function (event) {
+        //     const fileContents = event.target.result;
+        //     results.push({
+        //       name: file,
+        //       docs: JSON.parse(fileContents)
+        //     });
+        //     ngModel.$setViewValue(results);
+        //   };
+        // }
+
+
+        function arrayOfFiles() {
+          const readersMap = Object.keys(readers).map(file => new Promise((resolve) => {
+            readers[file].onload = function (event) {
+              const fileContents = event.target.result;
+              resolve({
+                name: file,
+                docs: JSON.parse(fileContents)
+              });
+            };
+          }));
+          return Promise.all(readersMap);
         }
 
 
-        // function arrayOfFiles() {
-        //   const readersMap = Object.keys(readers).map((file) => {
-        //     return new Promise((resolve, reject) => {
-        //       readers[file].onload = function (event) {
-        //         const fileContents = event.target.result;
-        //         resolve({
-        //           name: file,
-        //           docs: JSON.parse(fileContents)
-        //         });
-        //       };
-        //     });
-
-        // arrayOfFiles().then(res => {
-        //   console.log(res, 'got here...');
-        //   ngModel.$setViewValue(res);
-        // })
-
-
+        arrayOfFiles().then((res) => {
+          console.log(res, 'got here...');
+          ngModel.$setViewValue(res);
+        });
       });
     }
   }))
