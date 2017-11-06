@@ -1,0 +1,93 @@
+<html ng-app="invertedIndex">
+
+<head>
+    <title>Inverted Index</title>
+    <link rel="stylesheet" href="./packages/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+
+<body class="container">
+    <header>
+        <h1>Inverted Index</h1>
+    </header>
+
+    <div class="main" ng-controller="invertedIndexController">
+        <div class="row upload-and-search">
+            <label class="btn btn-success btn-file col-md-2">
+                Upload <input type="file" accept=".json" style="display: none;" ng-model="fiile" validate-read-setscope multiple>
+            </label>
+
+            <div class="col-sm-9 input-group pull-right">
+                <input type="text" class="form-control" ng-model="searchQuery">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Search
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a ng-click="searchIndex('all', searchQuery)">All files</a></li>
+                        <li ng-repeat="(key, value) in indexedFiles" ng-click="searchIndex(key, searchQuery)"><a href="#">{{ key }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row create-view-search">
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary form-group" ng-click="createIndex(fiile)" ng-disabled="!fiile">Create Index</button>
+            </div>
+
+            <div class="col-sm-5" ng-show="indexedFiles">
+                <div class="" ng-repeat="(name, indexed) in indexedFiles">
+                    <h4 class="text-center h4">{{ name | uppercase }} </h4>
+                    <table class="table">
+                        <thead>
+                            <th>TOKENS</th>
+                            <th ng-repeat="id in indexed.docIndexNum">DOC {{ id }}</th>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="(term, sourceIndexNums) in indexed.indexMap">
+                                <td>{{ term }}</td>
+                                <td ng-repeat="(key, val) in indexed.docIndexNum">
+                                    {{sourceIndexNums.includes(val) ? 'yes': 'no'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-5" ng-show="searchResults">
+                <div class="" ng-repeat="(name, indexed) in searchResults">
+                    <h4 class="text-center h4">SEARCH RESULTS FOR {{ name | uppercase }} </h4>
+                    <table class="table">
+                        <thead>
+                            <th>TOKENS</th>
+                            <th ng-repeat="id in indexed.docIndexNum">DOC {{ id }}</th>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="(term, sourceIndexNums) in indexed.indexMap">
+                                <td>{{ term }}</td>
+                                <td ng-repeat="(key, val) in indexed.docIndexNum">
+                                    {{sourceIndexNums.includes(val) ? 'yes': 'no'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h6>Inverted Index @ 2017</h6>
+    </footer>
+    <script src="./packages/jquery/dist/jquery.js"></script>
+    <script src="./packages/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./packages/angular/angular.js"></script>
+    <script src="./src/js/app.js"></script>
+    <script src="./src/js/invertedIndex.js"></script>
+</body>
+
+</html>
